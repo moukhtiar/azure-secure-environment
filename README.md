@@ -1,5 +1,5 @@
 [README.md](https://github.com/user-attachments/files/27494227/README.md)
-# Project 1 – Secure Azure Environment & Microsoft Defender for Cloud
+# Secure Azure Environment & Microsoft Defender for Cloud
 
 ## Objective
 Deployed a secure Azure test environment with network segmentation, hardened VM access, and security monitoring using Microsoft Defender for Cloud.
