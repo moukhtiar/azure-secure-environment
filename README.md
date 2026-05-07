@@ -54,5 +54,3 @@ Includes security controls, Defender recommendations, and alert analysis.
 
 ---
 
-## Date
-**2025-06-26**
