@@ -1,4 +1,3 @@
-[README.md](https://github.com/user-attachments/files/27494227/README.md)
 # Secure Azure Environment & Microsoft Defender for Cloud
 
 ## Objective
