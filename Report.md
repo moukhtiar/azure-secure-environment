@@ -1,67 +1,175 @@
-#  Secure Azure Environment & Defender for Cloud Report  
+# Secure Azure Environment — Security Findings & Remediation Report
+
+![Cloud](https://img.shields.io/badge/Cloud-Microsoft%20Azure-0078D4)
+![Security](https://img.shields.io/badge/Security-Defender%20for%20Cloud-008272)
+![Monitoring](https://img.shields.io/badge/Monitoring-Microsoft%20Defender-2563EB)
+![Networking](https://img.shields.io/badge/Networking-NSG%20%26%20Bastion-0F766E)
+![Protection](https://img.shields.io/badge/Protection-Microsoft%20Defender%20for%20Endpoint-7C3AED)
 
 ---
 
-## Task Summary
+## Overview
 
-Today’s goal was to build a secure Azure environment from scratch, deploy a management VM securely, and enable Microsoft Defender for Cloud to simulate real-world detection scenarios.
+This report documents the security controls implemented in the Azure environment, the simulated security scenarios performed, and the findings detected by Microsoft Defender for Cloud.
 
----
-
-## 1️. Security Controls Implemented
-
-- **Virtual Network Segmentation**:  
-  Created a VNet (`vnet-intern-sec-01`) with three subnets:
-  - `web-subnet (10.0.1.0/24)`
-  - `db-subnet (10.0.2.0/24)`
-  - `mgmt-subnet (10.0.3.0/24)`
-
-- **NSG Rules for Network Hardening**:  
-  - Applied an NSG to the `mgmt-subnet`
-  - Allowed **RDP (TCP 3389)** access only **from Azure Bastion**
-  - Blocked all public inbound traffic
-
-- **Azure Bastion Configuration**:  
-  - Deployed Bastion for secure, browser-based RDP access to the management VM (`vm-sec-mgmt01`)
-  - Eliminated the need for a public IP on the VM
-
-- **Microsoft Defender for Cloud – Plan 2**:
-  - Enabled Defender for Servers on the subscription
-  - Verified automatic onboarding of the Log Analytics / MDE agent
+The objective was to validate how Microsoft Defender for Cloud identifies insecure configurations and provides actionable remediation guidance.
 
 ---
 
-## 2️. Defender for Cloud Recommendations Observed
+## Environment Summary
 
-- **Management Ports Exposed to the Internet**  
-  - Simulated an RDP exposure by modifying NSG rules (Screenshot - nsg-open-rdp.png) 
-  - Defender detected the misconfiguration and flagged it as a high-priority issue (Screenshot - defender-alert-rdp.png)
-
-- **System Updates Should Be Installed**  
-  - Disabled the Windows Update service temporarily
-  - Defender flagged the VM as non-compliant under secure posture management
-
-Both issues were quickly remediated and disappeared from the Recommendations tab after reapplying correct settings.
-
----
-
-## 3️. Vulnerabilities or Alerts Detected
-
-| Type | Description | Status |
-|------|-------------|--------|
-|  NSG Misconfiguration | RDP open to Internet |  Resolved |
-|  Missing Updates | Automatic updates disabled | Resolved |
-
-These findings validated Defender's ability to monitor posture in near real time and provide actionable security insights.
+| Component | Configuration |
+|---|---|
+| Resource Group | `rg-intern-sec-01` |
+| Virtual Network | `vnet-intern-sec-01` |
+| Subnets | `web-subnet`, `db-subnet`, `mgmt-subnet` |
+| Virtual Machine | `vm-sec-mgmt01` |
+| Operating System | Windows Server 2019 |
+| Secure Access | Azure Bastion |
+| Monitoring | Defender for Cloud Plan 2 |
 
 ---
 
-## Outcome
+## Security Controls Implemented
 
-- Environment successfully deployed and secured
-- Defender for Cloud correctly identified intentional misconfigurations
-- Demonstrated ability to simulate, detect, and remediate common cloud security issues
+### Network Segmentation
+
+Configured a segmented Azure Virtual Network with dedicated subnets for workload separation.
+
+| Subnet | Address Space |
+|---|---|
+| `web-subnet` | `10.0.1.0/24` |
+| `db-subnet` | `10.0.2.0/24` |
+| `mgmt-subnet` | `10.0.3.0/24` |
+
+### NSG-Based Hardening
+
+Implemented Network Security Group (NSG) rules to restrict management access.
+
+### Security Configuration
+
+- RDP access allowed only through Azure Bastion
+- Public inbound management access blocked
+- Management VM isolated inside dedicated subnet
+
+### Azure Bastion Deployment
+
+Azure Bastion was deployed to provide secure browser-based administrative access without assigning a public IP address to the VM.
+
+### Microsoft Defender for Cloud
+
+Enabled Microsoft Defender for Servers Plan 2 and verified automatic onboarding of monitoring agents.
+
+### Features Enabled
+
+- Defender for Cloud recommendations
+- Security posture monitoring
+- Microsoft Defender for Endpoint (MDE) onboarding
+- Continuous assessment of VM security configuration
 
 ---
 
-Supporting evidence (screenshots) is included in the `/Screenshots/` folder.
+## Simulated Security Scenarios
+
+Intentional misconfigurations were introduced to validate Defender for Cloud detection capabilities.
+
+### Scenario 1 — RDP Exposure to Internet
+
+### Actions Performed
+
+- Modified NSG rules to expose RDP (TCP 3389) publicly
+- Simulated insecure administrative access configuration
+
+### Defender Response
+
+- Defender for Cloud detected exposed management ports
+- High-priority recommendation generated
+- Risk surfaced under security recommendations
+
+### Validation
+
+![NSG Misconfiguration](./images/nsg-open-rdp.png)
+
+![Defender Alert](./images/defender-alert-rdp.png)
+
+---
+
+## Scenario 2 — Missing System Updates
+
+### Actions Performed
+
+- Disabled Windows Update service temporarily
+- Simulated unpatched VM condition
+
+### Defender Response
+
+- VM flagged as missing important updates
+- Secure posture recommendation generated
+
+### Validation
+
+![Missing Updates](./images/missing-updates.png)
+
+---
+
+## Findings Summary
+
+| Finding | Description | Status |
+|---|---|---|
+| NSG Misconfiguration | RDP exposed to the internet | Resolved |
+| Missing System Updates | Automatic updates disabled | Resolved |
+
+---
+
+## Remediation Actions
+
+### RDP Exposure Remediation
+
+- Removed public RDP access
+- Reapplied secure NSG rules
+- Restricted management access to Azure Bastion only
+
+### Missing Updates Remediation
+
+- Re-enabled Windows Update service
+- Allowed system updates to install
+- Verified Defender recommendation clearance
+
+Both findings were successfully remediated and removed from Defender for Cloud recommendations after configuration correction.
+
+---
+
+## Security Benefits Demonstrated
+
+- Reduced attack surface through Bastion-only access
+- Improved workload isolation using subnet segmentation
+- Continuous security posture assessment
+- Detection of insecure cloud configurations
+- Visibility into infrastructure security risks
+
+---
+
+## Key Takeaways
+
+- Exposed management ports remain a major cloud security risk
+- Defender for Cloud provides effective posture monitoring
+- Network segmentation improves infrastructure security
+- Continuous monitoring is important for maintaining secure configurations
+- Small configuration changes can introduce significant exposure
+
+---
+
+## Supporting Evidence
+
+Additional screenshots and implementation details are available in:
+
+```txt
+images/
+docs/
+```
+
+---
+
+## Status
+
+Completed — security scenarios validated successfully and remediation confirmed.
