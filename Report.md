@@ -1,6 +1,4 @@
 #  Secure Azure Environment & Defender for Cloud Report  
-**Date:** 2025-06-26  
-**Author:** Muktar Mohamed
 
 ---
 
