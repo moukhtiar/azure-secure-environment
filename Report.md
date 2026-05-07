@@ -159,17 +159,6 @@ Both findings were successfully remediated and removed from Defender for Cloud r
 
 ---
 
-## Supporting Evidence
-
-Additional screenshots and implementation details are available in:
-
-```txt
-images/
-docs/
-```
-
----
-
 ## Status
 
-Completed — security scenarios validated successfully and remediation confirmed.
+Completed - security scenarios validated successfully and remediation confirmed.
